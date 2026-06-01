@@ -1,0 +1,82 @@
+Ques 1- 
+Given an m x n integer matrix matrix, if an element is 0, set its entire row and column to 0's.
+https://leetcode.com/problems/set-matrix-zeroes/description/
+
+
+
+// BRUTE FORCE - TC: O(m×n) | SC: O(m×n) vectors / O(m+n) sets
+
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        int n=matrix.size(), m=matrix[0].size();
+        vector<int> rows, cols;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(matrix[i][j]==0){
+                    rows.push_back(i);
+                    cols.push_back(j);
+                }
+            }
+        }
+        for(int r : rows)
+            for(int j=0;j<m;j++) matrix[r][j]=0;
+        for(int c : cols)
+            for(int i=0;i<n;i++) matrix[i][c]=0;
+    }
+};
+
+
+
+// BETTER - TC: O(m×n) | SC: O(m+n)
+
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        int n=matrix.size(), m=matrix[0].size();
+        unordered_set<int> rows, cols;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(matrix[i][j]==0){
+                    rows.insert(i);
+                    cols.insert(j);
+                }
+            }
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(rows.count(i)||cols.count(j))
+                    matrix[i][j]=0;
+            }
+        }
+    }
+};
+
+
+
+// OPTIMAL - TC: O(m×n) | SC: O(1)
+
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& arr) {
+        int n=arr.size(), m=arr[0].size();
+        bool fr=false, fc=false;
+        for(int i=0;i<m;i++) if(arr[0][i]==0) fr=true;
+        for(int i=0;i<n;i++) if(arr[i][0]==0) fc=true;
+        for(int i=1;i<n;i++){
+            for(int j=1;j<m;j++){
+                if(arr[i][j]==0){
+                    arr[i][0]=0;
+                    arr[0][j]=0;
+                }
+            }
+        }
+        for(int i=1;i<n;i++){
+            for(int j=1;j<m;j++){
+                if(arr[i][0]==0||arr[0][j]==0) arr[i][j]=0;
+            }
+        }
+        if(fr) for(int i=0;i<m;i++) arr[0][i]=0;
+        if(fc) for(int i=0;i<n;i++) arr[i][0]=0;
+    }
+};
