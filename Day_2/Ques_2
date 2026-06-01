@@ -11,7 +11,7 @@ public:
     }
 };
 
-// Better- TC- O(3n), SC- O(1)
+// Better- TC- O(2n), SC- O(1)
 
 class Solution {
 public:
