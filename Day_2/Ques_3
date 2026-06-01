@@ -1,0 +1,53 @@
+Ques-3
+Best Time to Buy and Sell Stock
+https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+
+
+// Brute- TC: O(n^2), SC- O(1)
+
+class Solution {
+public:
+    int maxProfit(vector<int>& arr) {
+        int n=arr.size(),mx=0;
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                mx=max(mx,arr[j]-arr[i]);
+            }
+        }
+        return mx;
+    }
+};
+
+// Better- TC- O(2n), SC- O(n)
+
+class Solution {
+public:
+    int maxProfit(vector<int>& arr) {
+        int n=arr.size();
+        vector<int>rmax(n);
+        rmax[n-1] = arr[n-1];
+        for(int i=n-2;i>=0;i--){
+            rmax[i] = max(rmax[i+1], arr[i]);
+        }
+        int mx = 0;
+        for(int i=0;i<n;i++){
+            mx = max(mx, rmax[i]-arr[i]);
+        }
+        return mx;
+    }
+};
+
+// Optimal- TC: O(n), SC- O(1)
+
+class Solution {
+public:
+    int maxProfit(vector<int>& arr) {
+        int mini=arr[0],prof=0,n=arr.size();
+        for(int i=1;i<n;i++){
+            int p=arr[i]-mini;
+            prof=max(prof,p);
+            mini=min(mini,arr[i]);
+        }
+        return prof;
+    }
+};
