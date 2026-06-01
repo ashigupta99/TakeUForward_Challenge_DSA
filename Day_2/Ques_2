@@ -1,0 +1,59 @@
+Ques-2
+Sort colors 0,1,2
+https://leetcode.com/problems/sort-colors/description/
+
+// BRUTE- TC- O(n logn), SC- O(1)
+
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+    }
+};
+
+// Better- TC- O(3n), SC- O(1)
+
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        vector<int>arr(3,0);
+        for(int x:nums){
+            arr[x]++;
+        }
+        int ind=0;
+        for(int i=0;i<arr[0];i++){
+            nums[ind++]=0;
+        }
+        for(int i=0;i<arr[1];i++){
+            nums[ind++]=1;
+        }
+        for(int i=0;i<arr[2];i++){
+            nums[ind++]=2;
+        }
+    }
+};
+
+// DUTCH NATIONAL FLAG ALGORITHM- TC: O(n), SC- O(1)
+
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int low = 0;
+        int mid = 0;
+        int high = nums.size() - 1;
+        while(mid <= high){
+            if(nums[mid] == 0){
+                swap(nums[low], nums[mid]);
+                low++;
+                mid++;
+            }
+            else if(nums[mid] == 1){
+                mid++;
+            }
+            else{
+                swap(nums[mid], nums[high]);
+                high--;
+            }
+        }
+    }
+};
