@@ -1,0 +1,26 @@
+Ques2
+Merge Intervals
+https://leetcode.com/problems/merge-intervals/description/
+
+// Optimal- O(n logn), SC- O(1)
+
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& arr) {
+        vector<vector<int>>ans;
+        sort(arr.begin(),arr.end(),[](auto &a, auto &b){return a[0]<b[0];});
+        int a=arr[0][0],b=arr[0][1],i=1,n=arr.size();
+        while(i<n){
+            if(arr[i][0]<=b){
+                b=max(arr[i][1],b);
+            }
+            else{
+                ans.push_back({a,b});
+                a=arr[i][0],b=arr[i][1];
+            }
+            i++;
+        }
+        ans.push_back({a,b});
+        return ans;
+    }
+};
