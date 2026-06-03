@@ -1,0 +1,38 @@
+Ques-1
+Rotate matrix by 90 degrees
+https://leetcode.com/problems/rotate-image/description/
+
+
+// brute- TC- O(n2), SC- O(n2)
+
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        vector<vector<int>> temp(n, vector<int>(n));
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                temp[j][n-1-i] = matrix[i][j];
+            }
+        }
+        matrix = temp;
+    }
+};
+
+
+// optimal- TC- O(n2), SC- O(1)
+
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        for(int i=0;i<n;i++){
+            for(int j=0;j<i;j++){
+                swap(matrix[i][j],matrix[j][i]);
+            }
+        }
+        for(int i=0;i<n;i++){
+            reverse(matrix[i].begin(),matrix[i].end());
+        }
+    }
+};
