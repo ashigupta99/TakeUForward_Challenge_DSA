@@ -1,0 +1,22 @@
+Ques 2
+pow(x,n)
+https://leetcode.com/problems/powx-n/description/
+
+class Solution {
+public:
+    double myPow(double x, int z) {
+        double ans=1;bool s=true;
+        long long n=z;
+        if(n<0){
+            n=-1LL*n;
+            s=false;
+        }
+        while(n){
+            if((n&1)!=0) ans*=x;
+            x*=x;
+            n/=2;
+        }
+        if(!s) ans=1.0/ans;
+        return ans;
+    }
+};
