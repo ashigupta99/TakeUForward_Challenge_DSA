@@ -1,0 +1,27 @@
+Ques3
+Majority Element- 1
+https://leetcode.com/problems/majority-element/description/
+
+// Brute- O(n2), O(1)
+// better- O(n), O(n)- hashmap
+// optimal- Moore's Voting Algo- Count of majority element cant be cancelled by others as it appears more than n/2 times
+
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int c=0, el=-1;
+        for(int i=0;i<nums.size();i++){
+            if(c==0){
+                el=nums[i];
+                c++;
+            }
+            else if(nums[i]==el){
+                c++;
+            }
+            else{
+                c--;
+            }
+        }
+        return el;
+    }
+};
