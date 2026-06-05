@@ -1,0 +1,22 @@
+Search element in 2D Matrix
+https://leetcode.com/problems/search-a-2d-matrix/description/
+
+// Brute- O(m*n)
+// Better- O(n+n)- search columnwise to find the row , then search that row
+// Or more better- O(log m + log n)- bin search on column, then on the required row
+
+// Optimal- Binary search- since every row sorted and first of next row> last of prev row
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& arr, int target) {
+        int m=arr.size(),n=arr[0].size();
+        int low=0,high=n*(m-1)+n-1;
+        while(low<=high){
+            int mid=low+(high-low)/2;
+            if(arr[mid/n][mid%n]==target) return true;
+            else if(arr[mid/n][mid%n]>target) high=mid-1;
+            else low=mid+1;
+        }
+        return false;
+    }
+};
