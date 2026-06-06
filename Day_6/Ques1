@@ -1,0 +1,38 @@
+Majority Element 2
+https://leetcode.com/problems/majority-element-ii/description/
+
+
+// brute - is O(n2)
+// better is hashmap - O(n), sc- O(n)
+// optimal- O(n)- Moores Voting Algo
+class Solution {
+public:
+    vector<int> majorityElement(vector<int>& nums) {
+        int e1=-1,c1=0,e2=-1,c2=0,n=nums.size();
+        for(int i=0;i<n;i++){ // 1,2,3,1,2,1,4,5,1,2,2,1,2,2,6,2,1
+            if(c1>0&&e1==nums[i]) c1++;
+            else if(c2>0&&e2==nums[i]) c2++;
+            else if(c1==0){
+                e1=nums[i];
+                c1++;
+            }
+            else if(c2==0){
+                e2=nums[i];
+                c2++;
+            }
+            else{
+                c1--;
+                c2--;
+            }
+        }
+        vector<int>ans;
+        int z1=0,z2=0;
+        for(int i=0;i<n;i++){
+            if(e1==nums[i]) z1++;
+            else if(e2==nums[i]) z2++;
+        }
+        if(z1>n/3) ans.push_back(e1);
+        if(z2>n/3) ans.push_back(e2);
+        return ans;
+    }
+};
