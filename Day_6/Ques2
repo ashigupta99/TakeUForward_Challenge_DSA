@@ -1,0 +1,82 @@
+// Brute- Recursion- TC- O(2^(m+n)), SC- O(m+n)
+// BETTER - Memoization -> Tabulation -> Space Optimized
+// Most Optimal- Combinatorics- TC- O(min(m,n)), SC- O(1)
+
+// MEMOIZATION- O(m*n), sc- O(m-1+n-1-- path length + m*n- dp array)
+class Solution {
+public:
+    int fun(int m, int n,vector<vector<int>>& dp){
+        if(m==0&&n==0) return 1;
+        if(m<0||n<0) return 0;
+        if(dp[m][n]!=-1) return dp[m][n];
+        int l=fun(m,n-1,dp);
+        int r=fun(m-1,n,dp);
+        return dp[m][n]=l+r;
+    }
+    int uniquePaths(int m, int n) {
+        vector<vector<int>>dp(m,vector<int>(n,-1));
+        return fun(m-1,n-1,dp);
+    }
+};
+
+
+
+// TABULATION- O(m*n), sc- O(m*n)
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        vector<vector<int>>dp(m,vector<int>(n));
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(i==0&&j==0) dp[i][j]=1;
+                else{
+                    int u=0,d=0;
+                    if(i>0) u=dp[i-1][j];
+                    if(j>0) d=dp[i][j-1];
+                    dp[i][j]=u+d;
+                }
+            }
+        }
+        return dp[m-1][n-1];
+    }
+};
+
+
+
+// Space Optimized- O(m*n), O(n)
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        vector<int>dp(n,0);
+        int a,b;
+        for(int i=0;i<m;i++){
+            vector<int>temp(n);
+            for(int j=0;j<n;j++){
+                if(i==0&&j==0) temp[j]=1;
+                else{
+                    int z=0;
+                    if(j>0) z=temp[j-1];
+                    temp[j]=dp[j]+z;
+                }
+            }
+            dp=temp;
+        }
+        return dp[n-1];
+    }
+};
+
+
+
+// Combinatorics- O(min(m-1 or n-1)), O(1)
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        int nn=n+m-2;
+        int r=m-1;
+        double res=1;
+        for(int i=1;i<=r;i++){
+            res=res*(nn-r+i)/i;   // nn C r
+        }
+        return (int)res;
+    }
+};
