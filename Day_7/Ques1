@@ -1,0 +1,38 @@
+// Brute- check each pair- O(n2)
+
+// Better- O(n logn + n)
+// class Solution {
+// public:
+//     vector<int> twoSum(vector<int>& nums, int target) {
+//         vector<vector<int>>num(nums.size(),vector<int>(2));
+//         for(int i=0;i<nums.size();i++){
+//             num[i][0]=nums[i],num[i][1]=i;
+//         }
+//         sort(num.begin(),num.end());
+//         int i=0,j=nums.size()-1;
+//         while(i<j){
+//             if(num[i][0]+num[j][0]==target){
+//                 break;
+//             }
+//             else if(num[i][0]+num[j][0]>target) j--;
+//             else i++;
+//         }
+//         vector<int>ans;
+//         ans.push_back(num[i][1]);ans.push_back(num[j][1]);
+//         return ans;
+//     }
+// };
+
+// Optimal- O(n)~ average
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int,int>m;
+        for(int i=0;i<nums.size();i++){
+            int need=target-nums[i];
+            if(m.find(need)!=m.end()) return {i,m[need]};
+            m[nums[i]]=i;
+        }
+        return {};
+    }
+};
