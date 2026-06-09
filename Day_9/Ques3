@@ -1,0 +1,62 @@
+// Iterative
+
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        if(!list1) return list2;
+        if(!list2) return list1;
+        ListNode* head=NULL,*tail=NULL;
+        ListNode* a=list1, *b=list2;
+        while(a&&b){
+            if(a->val<b->val){
+                if(!head){
+                    head=a;tail=a;
+                    ListNode* ta=a->next;
+                    a->next=NULL;
+                    a=ta;
+                }
+                else{
+                    tail->next=a;
+                    tail=tail->next;
+                    ListNode* ta=a->next;
+                    a->next=NULL;
+                    a=ta;
+                }
+            }
+            else{
+                if(!head){
+                    head=b;tail=b;
+                    ListNode* tb=b->next;
+                    b->next=NULL;
+                    b=tb;
+                }
+                else{
+                    tail->next=b;
+                    tail=tail->next;
+                    ListNode* tb=b->next;
+                    b->next=NULL;
+                    b=tb;
+                }
+            }
+        }
+        if(a) tail->next=a;
+        else if(b)tail->next=b;
+        return head;
+    }
+};
+
+// Recursive
+
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        if(!list1) return list2;
+        if(!list2) return list1;
+        if(list1->val <= list2->val){
+            list1->next = mergeTwoLists(list1->next, list2);
+            return list1;
+        }
+        list2->next = mergeTwoLists(list1, list2->next);
+        return list2;
+    }
+};
