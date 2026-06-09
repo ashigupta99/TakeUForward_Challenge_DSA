@@ -1,0 +1,30 @@
+// Iterative
+
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if(!head||!head->next) return head;
+        ListNode* prev=nullptr;
+        ListNode* curr=head;
+        while(curr){
+            ListNode* nex=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=nex;
+        }
+        return prev;
+    }
+};
+
+// Recursive
+
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if(!head||!head->next) return head;
+        ListNode* nxt=reverseList(head->next);
+        head->next->next=head;
+        head->next=nullptr;    // so that the first node goes to null
+        return nxt;           // main starting head node or org's tail
+    }
+};
