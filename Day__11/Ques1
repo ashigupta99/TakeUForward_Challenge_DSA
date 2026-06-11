@@ -1,0 +1,46 @@
+// Optimal 1- advancing the longer by diff in lengths
+
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        int a=0,b=0;
+        ListNode *aa=headA, *bb=headB;
+        while(aa){
+            a++;aa=aa->next;
+        }
+        while(bb){
+            b++;bb=bb->next;
+        }
+        aa=headA,bb=headB;
+        if(a>b){
+            int d=a-b;
+            while(d--) aa=aa->next;
+        }
+        else{
+            int d=b-a;
+            while(d--) bb=bb->next;
+        }
+        while(aa){
+            if(aa==bb) return aa;
+            aa=aa->next;bb=bb->next;
+        }
+        return NULL;
+    }
+};
+
+
+
+// optimal 2- without explicitly finding the length difference
+
+
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ListNode *aa=headA, *bb=headB;
+        while(aa!=bb){
+            aa=(!aa)?headB:aa->next;
+            bb=(!bb)?headA:bb->next;
+        }
+        return aa;
+    }
+};
