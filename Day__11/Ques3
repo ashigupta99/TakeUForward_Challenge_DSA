@@ -1,0 +1,69 @@
+// Better
+
+class Solution {
+public:
+    ListNode* nextk(ListNode* x, int k){
+        for(int i=0;i<k-1;i++){
+            if(!x) return nullptr;
+            x=x->next;
+        }
+        return x;
+    } 
+    ListNode* reverse(ListNode* x){
+        if(!x||!x->next) return x;
+        ListNode* hd=reverse(x->next);
+        x->next->next=x;
+        x->next=NULL;
+        return hd;
+    }
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        ListNode* dumm=head, *headd=NULL, *prevv=NULL;
+        while(dumm){
+            ListNode* kk=nextk(dumm,k);
+            if(!kk) break;
+            ListNode* nx=kk->next;
+            kk->next=NULL;
+            ListNode* nh=reverse(dumm);
+            if(!headd) headd=nh;
+            else prevv->next=nh;
+            dumm->next=nx;        // this helps if next k not avail, then left stay as it is
+            prevv=dumm;
+            dumm=nx;
+        }
+        return (headd)?headd:head;
+    }
+};
+
+
+// Optimal
+
+class Solution {
+public:
+    ListNode* nextk(ListNode* x, int k){
+        for(int i=0;i<k-1;i++){
+            if(!x) return nullptr;
+            x=x->next;
+        }
+        return x;
+    } 
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        ListNode* dumm=head, *headd=NULL, *prevv=NULL;
+        while(dumm){
+            ListNode* kk=nextk(dumm,k);
+            if(!kk) break;
+            ListNode* nx=kk->next, *nw=dumm, *pr=nx;
+            while(nw!=nx){
+                ListNode* nxt=nw->next;
+                nw->next=pr;
+                pr=nw;
+                nw=nxt;
+            }
+            if(!headd) headd=kk;
+            else prevv->next=kk;
+            // dumm->next=nx;       // not used here 
+            prevv=dumm;
+            dumm=nx;
+        }
+        return (headd)?headd:head;
+    }
+};
