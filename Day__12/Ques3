@@ -1,0 +1,71 @@
+// Recursive
+
+class Solution {
+public:
+    Node* merge(Node* a, Node* b){
+        if(!a) return b;
+        if(!b) return a;
+        Node* ans;
+        if(a->data <= b->data){
+            ans = a;
+            ans->bottom = merge(a->bottom, b);
+        }
+        else{
+            ans = b;
+            ans->bottom = merge(a, b->bottom);
+        }
+        ans->next = nullptr;   // imp
+        return ans;
+    }
+
+    Node* flatten(Node* root) {
+        if(!root || !root->next)
+            return root;
+        root->next = flatten(root->next);
+        root = merge(root, root->next);
+        return root;
+    }
+};
+
+
+// Iterative
+
+class Solution {
+public:
+    Node* merge(Node* a, Node* b) {
+        Node dummy(0);
+        Node* tail = &dummy;
+        while (a && b) {
+            if (a->data <= b->data) {
+                tail->bottom = a;
+                a = a->bottom;
+            }
+            else {
+                tail->bottom = b;
+                b = b->bottom;
+            }
+
+            tail = tail->bottom;
+            tail->next = nullptr;    // imp
+        }
+        if (a)
+            tail->bottom = a;
+        else
+            tail->bottom = b;
+
+        return dummy.bottom;
+    }
+
+    Node* flatten(Node* root) {
+        if (!root) return nullptr;
+        Node* curr = root->next;
+        root->next = nullptr;
+        while (curr) {
+            Node* nxt = curr->next;
+            curr->next = nullptr;
+            root = merge(root, curr);
+            curr = nxt;
+        }
+        return root;
+    }
+};
