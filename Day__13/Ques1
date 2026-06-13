@@ -1,0 +1,84 @@
+// Brute- O(N^2)
+
+// class Solution {
+// public:
+//     ListNode* rotateRight(ListNode* head, int k) {
+//         if(!head||!head->next) return head;
+//         ListNode* cur=head;
+//         int c=0;
+//         while(cur){
+//             c++;
+//             cur=cur->next;
+//         }
+//         k=k%c;
+//         while(k--){
+//             cur=head;
+//             while(cur->next->next) cur=cur->next;
+//             ListNode* last=cur->next;
+//             cur->next=NULL;
+//             last->next=head;
+//             head=last;
+//         }
+//         return head;
+//     }
+// };
+
+
+// Better
+
+// class Solution {
+// public:
+//     ListNode* reverse(ListNode* head){
+//         if(!head||!head->next) return head;
+//         ListNode* nx=reverse(head->next);
+//         head->next->next=head;
+//         head->next=NULL;
+//         return nx;
+//     }
+//     ListNode* rotateRight(ListNode* head, int k) {
+//         if(!head||!head->next) return head;
+//         ListNode* cur=head;
+//         int c=0;
+//         while(cur){
+//             c++;
+//             cur=cur->next;
+//         }
+//         k=k%c;
+//         if(k==0) return head;
+//         int f=c-k-1;
+//         cur=head;
+//         while(f--){
+//             cur=cur->next;
+//         }
+//         ListNode* sec=cur->next;
+//         cur->next=NULL;
+//         ListNode* nhead=reverse(head);
+//         ListNode* sechead=reverse(sec);
+//         head->next=sechead;
+//         ListNode* ans=reverse(nhead);
+//         return ans;
+//     }
+// };
+
+
+// Optimal
+class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        if(!head||!head->next) return head;
+        ListNode* cur=head;
+        int c=1;
+        while(cur->next){
+            c++;
+            cur=cur->next;
+        }
+        cur->next=head;
+        k=k%c;
+        int r=c-k-1;
+        cur=head;
+        while(r--) cur=cur->next;
+        head=cur->next;
+        cur->next=NULL;
+        return head;
+    }
+};
