@@ -1,0 +1,67 @@
+// brute
+
+// class Solution {
+// public:
+//     int trap(vector<int>& arr) {
+//         int n=arr.size(),mx=0;
+//         for(int i=0;i<n;i++){
+//             int l=0,r=0;
+//             for(int j=0;j<=i;j++){
+//                 l=max(l,arr[j]);
+//             }
+//             for(int j=i;j<n;j++){
+//                 r=max(r,arr[j]);
+//             }
+//             if(arr[i]<=l&&arr[i]<=r) mx+=min(l,r)-arr[i];
+//         }
+//         return mx;
+//     }
+// };
+
+// better
+
+// class Solution {
+// public:
+//     int trap(vector<int>& arr) {
+//         int n=arr.size(),mx=0;
+//         vector<int>l(n),r(n);
+//         l[0]=arr[0];
+//         for(int i=1;i<n;i++){
+//             l[i]=max(arr[i],l[i-1]);
+//         }
+//         r[n-1]=arr[n-1];
+//         for(int i=n-2;i>=0;i--){
+//             r[i]=max(arr[i],r[i+1]);
+//         }
+//         for(int i=0;i<n;i++){
+//             if(arr[i]<=l[i]&&arr[i]<=r[i]) mx+=min(l[i],r[i])-arr[i];
+//         }
+//         return mx;
+//     }
+// };
+
+// optimal
+
+class Solution {
+public:
+    int trap(vector<int>& arr) {
+        int n=arr.size(),l=0,r=n-1,lm=0,rm=0,ans=0;
+        while(l<r){
+            if(arr[l]<=arr[r]){
+                if(arr[l]>=lm) lm=arr[l];
+                else{
+                    ans+=lm-arr[l];
+                }
+                l++;
+            }
+            else{
+                if(arr[r]>=rm) rm=arr[r];
+                else{
+                    ans+=rm-arr[r];
+                }
+                r--;
+            }
+        }
+        return ans;
+    }
+};
