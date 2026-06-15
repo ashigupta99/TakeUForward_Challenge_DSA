@@ -1,0 +1,19 @@
+class Solution{  
+  public:  
+    vector<int> JobScheduling(vector<vector<int>>& jobs) { 
+        sort(jobs.begin(),jobs.end(),[](auto a, auto b){return a[2]>b[2];});
+        vector<int>lim(jobs.size()+1,-1);
+        int c=0,p=0;
+        for(int i=0;i<jobs.size();i++){
+            for(int j=jobs[i][1];j>=1;j--){
+                if(lim[j]==-1){
+                    lim[j]=jobs[i][0];
+                    p+=jobs[i][2];
+                    c++;
+                    break;
+                }
+            }
+        }
+        return {c,p};
+    } 
+};
