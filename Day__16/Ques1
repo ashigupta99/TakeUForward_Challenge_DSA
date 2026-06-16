@@ -1,0 +1,71 @@
+// class Solution {
+// public:
+//     int fun(int i, int j, vector<int>&arr, vector<vector<int>>&dp){
+//         if(j==0) return 0;
+//         if(i==0){
+//             if(j%arr[0]==0) return j/arr[0];
+//             else return 1e9;
+//         }
+//         if(dp[i][j]!=-1) return dp[i][j];
+//         int ntk=fun(i-1,j,arr,dp);
+//         int tk=INT_MAX;
+//         if(j>=arr[i]) tk=1+fun(i,j-arr[i],arr,dp);
+//         return dp[i][j]=min(tk,ntk);
+//     }
+//     int coinChange(vector<int>& arr, int amt) {
+//         int n=arr.size();
+//         vector<vector<int>>dp(n,vector<int>(amt+1,-1));
+//         int a=fun(n-1,amt,arr,dp);
+//         return (a==1e9)?-1:a;
+//     }
+// };
+
+
+
+// class Solution {
+// public:
+//     int coinChange(vector<int>& arr, int amt) {
+//         int n=arr.size();
+//         vector<vector<int>>dp(n,vector<int>(amt+1,0));
+//         for(int i=0;i<n;i++) dp[i][0]=0;
+//         for(int j=0;j<=amt;j++){
+//             if(j%arr[0]==0) dp[0][j]=j/arr[0];
+//             else dp[0][j]=1e9;
+//         }
+//         for(int i=1;i<n;i++){
+//             for(int j=1;j<=amt;j++){
+//                 int ntk=dp[i-1][j];
+//                 int tk=INT_MAX;
+//                 if(j>=arr[i]) tk=1+dp[i][j-arr[i]];
+//                 dp[i][j]=min(tk,ntk);
+//             }
+//         }
+//         return (dp[n-1][amt]==1e9)?-1:dp[n-1][amt];
+//     }
+// };
+
+
+
+
+class Solution {
+public:
+    int coinChange(vector<int>& arr, int amt) {
+        int n=arr.size();
+        vector<int>dp(amt+1,0);
+        for(int j=0;j<=amt;j++){
+            if(j%arr[0]==0) dp[j]=j/arr[0];
+            else dp[j]=1e9;
+        }
+        for(int i=1;i<n;i++){
+            vector<int>temp(amt+1,0);
+            for(int j=1;j<=amt;j++){
+                int ntk=dp[j];
+                int tk=INT_MAX;
+                if(j>=arr[i]) tk=1+temp[j-arr[i]];
+                temp[j]=min(tk,ntk);
+            }
+            dp=temp;
+        }
+        return (dp[amt]==1e9)?-1:dp[amt];
+    }
+};
