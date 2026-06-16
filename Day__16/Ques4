@@ -1,0 +1,48 @@
+// class Solution {
+// public:
+//     vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+//         set<vector<int>>ans;
+//         int n=nums.size();
+//         sort(nums.begin(),nums.end());
+//         for(int mask=0;mask<(1<<n);mask++){
+//             vector<int>a;
+//             for(int i=0;i<n;i++){
+//                 if(mask&(1<<i)) a.push_back(nums[i]);
+//             }
+//             ans.insert(a);
+//         }
+//         vector<vector<int>>fans;
+//         for(auto x:ans){
+//             fans.push_back(x);
+//         }
+//         return fans;
+//     }
+// };
+
+
+
+class Solution {
+public:
+    void fun(int i, vector<int>&nums, set<vector<int>>&ans, vector<int>&temp){
+        if(i==nums.size()){
+            ans.insert(temp);
+            return;
+        }
+        temp.push_back(nums[i]);
+        fun(i+1,nums,ans,temp);
+        temp.pop_back();
+        fun(i+1,nums,ans,temp);
+    }
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        set<vector<int>>ans;
+        vector<int>temp;
+        int n=nums.size();
+        sort(nums.begin(),nums.end());
+        fun(0,nums,ans,temp);
+        vector<vector<int>>fans;
+        for(auto x:ans){
+            fans.push_back(x);
+        }
+        return fans;
+    }
+};
