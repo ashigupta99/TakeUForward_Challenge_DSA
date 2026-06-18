@@ -1,0 +1,32 @@
+class Solution {
+public:
+    bool pos(int i, int j, char no, vector<vector<char>>&arr){
+        for(int k=0;k<arr.size();k++){
+            if(arr[i][k]==no) return false;
+            if(arr[k][j]==no) return false;
+            if(arr[((i/3)*3)+(k/3)][((j/3)*3)+(k%3)]==no) return false;
+        }
+        return true;
+    }
+    bool fun(vector<vector<char>>&arr){
+        int n=arr.size();
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(arr[i][j]=='.'){
+                    for(int k=1;k<=9;k++){
+                        if(pos(i,j,(char)('0'+k),arr)){
+                            arr[i][j]=(char)('0'+k);
+                            if(fun(arr)) return true;
+                            arr[i][j]='.';
+                        }
+                    }
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    void solveSudoku(vector<vector<char>>& board) {
+        fun(board);
+    }
+};
