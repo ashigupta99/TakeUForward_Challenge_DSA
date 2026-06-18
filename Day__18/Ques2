@@ -1,0 +1,86 @@
+// class Solution {
+// public:
+//     bool chk(vector<string>&vis,int i, int j){
+//         int n=vis.size();
+//         for(int k=0;k<=i;k++){
+//             if(vis[k][j]=='Q') return false;
+//         }
+//         int a=i,b=j;
+//         while(a>=0&&b>=0){
+//             if(vis[a][b]=='Q') return false;
+//             a--;b--;
+//         }
+//         a=i;b=j;
+//         while(a>=0&&b<n){
+//             if(vis[a][b]=='Q') return false;
+//             a--;b++;
+//         }
+//         return true;
+//     }
+//     void fun(int i, int n, vector<vector<string>>&ans, vector<string>&temp){
+//         if(i==n){
+//             ans.push_back(temp);
+//             return;
+//         }
+//         for(int j=0;j<n;j++){
+//             if(chk(temp,i,j)){
+//                 temp[i][j]='Q';
+//                 fun(i+1,n,ans,temp);
+//                 temp[i][j]='.';
+//             }
+//         }
+//     }
+//     vector<vector<string>> solveNQueens(int n) {
+//         vector<vector<string>>ans;
+//         vector<string>temp;
+//         for(int i=0;i<n;i++){
+//             string x="";
+//             for(int j=0;j<n;j++)x+='.';
+//             temp.push_back(x);
+//         }
+//         fun(0,n,ans,temp);
+//         return ans;
+//     }
+// };
+
+
+
+
+
+
+
+class Solution {
+public:
+    void fun(int i, int n, vector<vector<string>>&ans, vector<string>&temp,vector<int>&coli,vector<int>&d1,vector<int>&d2){
+        if(i==n){
+            ans.push_back(temp);
+            return;
+        }
+        for(int j=0;j<n;j++){
+            if(coli[j]==-1&&d1[i+j]==-1&&d2[n-1+j-i]==-1){
+                temp[i][j]='Q';
+                coli[j]=1;
+                d1[i+j]=1;
+                d2[n-1+j-i]=1;
+                fun(i+1,n,ans,temp,coli,d1,d2);
+                temp[i][j]='.';
+                coli[j]=-1;
+                d1[i+j]=-1;
+                d2[n-1+j-i]=-1;
+            }
+        }
+    }
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>>ans;
+        vector<string>temp;
+        vector<int>coli(n,-1);
+        vector<int>d1(2*n-1,-1),d2(2*n-1,-1);
+        for(int i=0;i<n;i++){
+            string x="";
+            for(int j=0;j<n;j++)x+='.';
+            temp.push_back(x);
+        }
+        fun(0,n,ans,temp,coli,d1,d2);
+        return ans;
+    }
+};
