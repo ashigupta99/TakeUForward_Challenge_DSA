@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int fac(int n){
+        int res=1;
+        while(n){
+            res*=n;
+            n--;
+        }
+        return res;
+    }
+    string getPermutation(int n, int k) {
+        vector<int>arr(n);
+        for(int i=1;i<=n;i++) arr[i-1]=i;
+        int z=k-1;
+        string s="";
+        while(n){
+            int bl=fac(n-1);
+            int rem=z%bl;
+            n--;
+            s+=to_string(arr[z/bl]);
+            arr.erase(arr.begin()+(z/bl));
+            z=rem;
+        }
+        return s;
+    }
+};
