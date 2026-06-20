@@ -1,0 +1,67 @@
+// class Solution {
+// public:
+//     bool fun(int i, string& s, unordered_set<string>&m){
+//         int n=s.length();
+//         if(i==n) return true;
+//         for(int j=i;j<n;j++){
+//             if(m.find(s.substr(i,j-i+1))!=m.end()){
+//                 if(fun(j+1,s,m)) return true;
+//             }
+//         }
+//         return false;
+//     }
+//     bool wordBreak(string s, vector<string>& wordDict) {
+//         unordered_set<string>m;
+//         for(int i=0;i<wordDict.size();i++) m.insert(wordDict[i]);
+//         return fun(0,s,m);
+//     }
+// };
+
+
+
+// class Solution {
+// public:
+//     bool fun(int i, string& s, unordered_set<string>&m, vector<int>&dp){
+//         int n=s.length();
+//         if(i==n) return 1;
+//         if(dp[i]!=-1) return dp[i];
+//         for(int j=i;j<n;j++){
+//             if(m.find(s.substr(i,j-i+1))!=m.end()){
+//                 if(fun(j+1,s,m,dp)) return dp[i]=1;
+//             }
+//         }
+//         return dp[i]=0;
+//     }
+//     bool wordBreak(string s, vector<string>& wordDict) {
+//         unordered_set<string>m;
+//         vector<int>dp(s.length(),-1);
+//         for(int i=0;i<wordDict.size();i++) m.insert(wordDict[i]);
+//         return fun(0,s,m,dp);
+//     }
+// };
+
+
+
+
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        unordered_set<string>m;
+        int n=s.length();
+        vector<int>dp(n+1,-1);
+        for(int i=0;i<wordDict.size();i++) m.insert(wordDict[i]);
+        dp[n]=1;
+        for(int i=n-1;i>=0;i--){
+            for(int j=i;j<n;j++){
+                if(m.find(s.substr(i,j-i+1))!=m.end()){
+                    if(dp[j+1]){
+                        dp[i]=1;
+                        break;
+                    }
+                }
+            }
+            if(dp[i]==-1) dp[i]=0;
+        }
+        return dp[0];
+    }
+};
