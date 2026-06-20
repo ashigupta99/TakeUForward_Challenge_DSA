@@ -1,0 +1,30 @@
+class Solution{
+public:
+    bool poss(int i, int c, vector<vector<int>>& adj, vector<int>&clr){
+        for(auto x:adj[i]){
+            if(clr[x]==c) return false;
+        }
+        return true;
+    }
+    bool solve(int i, int n, int m,vector<vector<int>>&adj, vector<int>&clr){
+        if(i==n) return true;
+        for(int c=1;c<=m;c++){
+            if(poss(i,c,adj,clr)){
+                clr[i]=c;
+                if(solve(i+1,n,m,adj,clr)) return true;
+                clr[i]=0;
+            }
+        }
+        return false;
+    }
+    bool graphColoring(vector<vector<int> >& edges, int m, int n) {
+    	vector<vector<int>>adj(n);
+        for(int i=0;i<edges.size();i++){
+            int u=edges[i][0],v=edges[i][1];
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        vector<int>clr(n,0);
+        return solve(0,n,m,adj,clr);
+    }
+};
