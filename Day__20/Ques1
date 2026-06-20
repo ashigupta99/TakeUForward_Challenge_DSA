@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int fun(long long mid, int n, int m){
+        long long res=1;
+        while(n){
+            if(n&1){
+                if(res>m/mid) return 2;
+                res*=mid;
+            }
+            n>>=1;
+            if(n){
+                if(1LL*(long long)mid*(long long)mid>(long long)m) mid=(long long)m+1LL;
+                else mid=(long long)mid*(long long)mid;
+            }
+        }
+        if(m==res) return 1;
+        if(res<m) return 0;
+        return 2;
+    }
+    int NthRoot(int n, int m) {
+        int low=1,high=m;
+        while(low<=high){
+            int mid=low+(high-low)/2;
+            int x=fun(mid,n,m);
+            if(x==1) return mid;
+            else if(x==0){
+                low=mid+1;
+            }
+            else high=mid-1;
+        }
+        return -1;
+    }
+};
