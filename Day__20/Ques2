@@ -1,3 +1,4 @@
+// not better soln- O(m^2 . n)
 // class Solution {
 //   public:
 //     int median(vector<vector<int>> &mat) {
@@ -19,6 +20,36 @@
 //     }
 // };
 
+
+class Solution {
+public:
+    int median(vector<vector<int>>& mat) {
+        int n =mat.size(), m=mat[0].size();
+        priority_queue<
+            vector<int>,
+            vector<vector<int>>,
+            greater<vector<int>>
+        > pq;
+        for (int i=0; i<n;i++) {
+            pq.push({mat[i][0],i,0});
+        }
+        int req = (n*m)/2;
+        int cnt = 0;
+        while (!pq.empty()) {
+            auto curr=pq.top();
+            pq.pop();
+            int val=curr[0];
+            int row=curr[1];
+            int col=curr[2];
+            if (cnt == req) return val;
+            cnt++;
+            if (col + 1 < m) {
+                pq.push({mat[row][col + 1], row, col + 1});
+            }
+        }
+        return -1;
+    }
+};
 
 
 class Solution {
